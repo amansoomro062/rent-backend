@@ -9,19 +9,23 @@ Person.findAll(function(err, person) {
   res.send(person);
 });
 };
+
 exports.create = function(req, res) {
+  console.log(req.body);
 const new_person = new Person(req.body);
 //handles null error
 if(req.body.constructor === Object && Object.keys(req.body).length === 0){
   res.status(400).send({ error:true, message: 'Please provide all required field' });
 }else{
-Person.create(person, function(err, person) {
+Person.create(new_person, function(err, person) {
   if (err)
   res.send(err);
   res.json({error:false,message:"Person added successfully!",data:person});
 });
 }
 };
+
+
 exports.findById = function(req, res) {
 Person.findById(req.params.id, function(err, person) {
   if (err)
