@@ -7,6 +7,8 @@ router.get('/', personController.findAll);
 router.post('/', personController.create);
 // Retrieve a single employee with id
 router.get('/:id', personController.findById);
+// Retrieve a single employee with cnic
+router.get('cnic/:cnic', personController.findByCNIC);
 // // Update a employee with id
 router.put('/:id', personController.update);
 // Delete a employee with id

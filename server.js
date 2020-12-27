@@ -18,8 +18,12 @@ app.get('/', (req, res) => {
 });
 // Require employee routes
 const personRoutes = require('./src/routes/person.route')
+const personRoutes2 = require('./src/routes/person2.route')
+
 // using as middleware
-app.use('/api/v1/person',personRoutes )
+app.use('/api/v1/person',personRoutes)
+app.use('/api/v1/person/cnic',personRoutes2)
+
 // listen for requests
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);

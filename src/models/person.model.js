@@ -2,8 +2,9 @@
 var dbConn = require('./../../config/db.config');
 //Employee object create
 var Person = function (person) {
+    this.receipt_no = person.receipt_no;
     this.firstname = person.firstname;
-    this.lastname = person.lastname;
+    this.phone_no = person.phone_no;
     this.cnic = person.cnic;
     this.rent_total = person.rent_total;
     this.aggreement_start_date = person.aggreement_start_date;
@@ -28,7 +29,19 @@ Person.create = function (newPerson, result) {
 };
 
 Person.findById = function (id, result) {
-    dbConn.query("Select * from person where id = ? ", id, function (err, res) {
+    dbConn.query("Select * from person where receipt_no = ? ", id, function (err, res) {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+        }
+        else {
+            result(null, res);
+        }
+    });
+};
+
+Person.findByCNIC = function (nic, result) {
+    dbConn.query("Select * from person where cnic = ? ", nic, function (err, res) {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -51,7 +64,9 @@ Person.findAll = function (result) {
     });
 };
 Person.update = function (id, person, result) {
-    dbConn.query("UPDATE person SET firstname=?,lastname=?,cnic=?,rent_total=?,aggrement_start_date=?,aggrement_end_date=?,amount_cllection_month=?,collected_rent=?,e_bill=?,g_bill=?, WHERE id = ?", [person.firstname, person.lastname, person.cnic, person.rent_total, person.aggrement_start_date, person.aggrement_end_date, person.amount_cllection_month, person.collected_rent, person.e_bill, person.g_bill, id], function (err, res) {
+    console.log(typeof(id));
+    const theId = parseInt(id)
+    dbConn.query("UPDATE person SET firstname=?,phone_no=?,cnic=?,rent_total=?,aggreement_start_date=?,aggreement_end_date=?,amount_cllection_month=?,collected_rent=?,e_bill=?,g_bill=? WHERE receipt_no = ?", [person.firstname, person.phone_no, person.cnic, person.rent_total, person.aggreement_start_date, person.aggreement_end_date, person.amount_cllection_month, person.collected_rent, person.e_bill, person.g_bill, person.receipt_no], function (err, res) {
         if (err) {
             console.log("error: ", err);
             result(null, err);
